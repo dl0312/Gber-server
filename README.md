@@ -9,23 +9,29 @@ GraphQL, TypeScript, NodeJS
 
 - [x] Sign In / Sign Up with Facebook
 - [x] Sign In with Email
-- [ ] Start Phone Number Verification
-- [ ] Complete Phone Number Verification
-- [ ] Sign Up with Email
+- [x] Start Phone Number Verification
+- [x] Complete Phone Number Verification
+- [x] Sign Up with Email
 
 ---
 
+### Authentication:
+
+- [x] Generate JWT
+- [x] Verify JWT
+
 ### Private Resolvers:
 
-- [ ] Generate JWT
-- [ ] Verify JWT
-- [ ] Verify Email
-- [ ] Get My Profile
-- [ ] Update my Profile
-- [ ] Report location / Orientation
-- [ ] Add Place
-- [ ] Edit Place
-- [ ] Delete Place
+- [x] Get My Profile
+- [x] Request Email Verification
+- [x] Complete Email Verification
+- [x] Update my Profile
+- [x] Toggle Driving Mode
+- [x] Report location / Orientation
+- [x] Add Place
+- [x] Edit Place
+- [x] Delete Place
+- [ ] Get My Places
 - [ ] See Nearby Drivers
 - [ ] Subscribe to Nearby Drivers
 - [ ] Request a Ride
