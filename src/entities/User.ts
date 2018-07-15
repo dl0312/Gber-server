@@ -1,4 +1,4 @@
-import bcrpyt from "bcrypt";
+import bcrypt from "bcrypt";
 import { IsEmail } from "class-validator";
 import {
   BaseEntity,
@@ -7,21 +7,21 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import Chat from "./Chat";
 import Message from "./Message";
-import Ride from "./Ride";
 import Place from "./Place";
+import Ride from "./Ride";
 
 const BCRYPT_ROUNDS = 10;
 
 @Entity()
 class User extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
+
   @Column({ type: "text", nullable: true })
   @IsEmail()
   email: string | null;
@@ -36,7 +36,7 @@ class User extends BaseEntity {
   lastName: string;
 
   @Column({ type: "int", nullable: true })
-  age: number | null;
+  age: number;
 
   @Column({ type: "text", nullable: true })
   password: string;
@@ -45,7 +45,7 @@ class User extends BaseEntity {
   phoneNumber: string;
 
   @Column({ type: "boolean", default: false })
-  verifiedPhoneNumber;
+  verifiedPhoneNumber: boolean;
 
   @Column({ type: "text" })
   profilePhoto: string;
@@ -68,14 +68,17 @@ class User extends BaseEntity {
   @Column({ type: "double precision", default: 0 })
   lastOrientation: number;
 
-  @ManyToOne(type => Chat, chat => chat.participants)
-  chat: Chat;
+  @Column({ type: "text", nullable: true })
+  fbId: string;
+
+  @OneToMany(type => Chat, chat => chat.passenger)
+  chatsAsPassenger: Chat[];
+
+  @OneToMany(type => Chat, chat => chat.driver)
+  chatsAsDriver: Chat[];
 
   @OneToMany(type => Message, message => message.user)
   messages: Message[];
-
-  @Column({ type: "text", nullable: true })
-  fbId: string;
 
   @OneToMany(type => Ride, ride => ride.passenger)
   ridesAsPassenger: Ride[];
@@ -87,6 +90,7 @@ class User extends BaseEntity {
   places: Place[];
 
   @CreateDateColumn() createdAt: string;
+
   @UpdateDateColumn() updatedAt: string;
 
   get fullName(): string {
@@ -94,7 +98,7 @@ class User extends BaseEntity {
   }
 
   public comparePassword(password: string): Promise<boolean> {
-    return bcrpyt.compare(password, this.password);
+    return bcrypt.compare(password, this.password);
   }
 
   @BeforeInsert()
@@ -107,7 +111,7 @@ class User extends BaseEntity {
   }
 
   private hashPassword(password: string): Promise<string> {
-    return bcrpyt.hash(password, BCRYPT_ROUNDS);
+    return bcrypt.hash(password, BCRYPT_ROUNDS);
   }
 }
 
